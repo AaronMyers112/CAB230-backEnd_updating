@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/api', function(req, res, next) {
 	res.render('index', {title: "Choose a Database to access"});
-})
+});
 
 router.get('/offences', function(req,res,next) {
 	req.db.from('offence_columns').distinct('*')
@@ -20,9 +20,41 @@ router.get('/offences', function(req,res,next) {
 		.catch((err) => {
 			res.json({"Error": true, "Message": "Error executing MySQL query"});
 		})
-})
+});
+
+router.get('/search?', function(req, res, next) {
+	let p = req.params.Param;
+	let query = req.db.select('area').sum({total: req.query.offence}).from('offences').groupBy('area')
+	if(req.query.area){
+		query.where('area', req.query.name);
+	}
+	if(req.query.age)
+	{
+		query.where('age', req.query.age);
+	}
+	if(req.query.gender)
+	{
+		query.where('gender', req.query.gender);
+	}
+	if(req.query.year)
+	{
+		query.where('year', req.query.year);
+	}
+	if(req.query.month){
+		query.where('month', req.query.month);
+	}
+	console.log(req.query);
+	// req.db.select('area').sum({total: req.query.offence}).from('offences').where('area','like',req.query.area).groupBy('area')
+		query.then((rows) => {
+			res.json({"Error": false, "Message" : "Success", "result" : rows});
+		})
+		.catch((err) => {
+			res.json({"Error": true, "Message": "Error executing MySQL query", "Param": req.params.Param});
+		})
+});
 
 router.get('/:Param', function(req,res,next) {
+	console.log(req.query);
 	req.db.from('offences').distinct(req.params.Param)
 		.then((rows) => {
 			res.json({"Error": false, "Message" : "Success", "Offences" : rows});
@@ -30,36 +62,6 @@ router.get('/:Param', function(req,res,next) {
 		.catch((err) => {
 			res.json({"Error": true, "Message": "Error executing MySQL query"});
 		})
-})
-
-
-router.get('/search?offence=:Param', function(req, res, next) {
-	req.db.select(req.params.Param, 'area').from('offences').groupBy('area')
-		.then((rows) => {
-			res.json({"Error": false, "Message" : "Success", "result" : rows});
-		})
-		.catch((err) => {
-			res.json({"Error": true, "Message": "Error executing MySQL query"});
-		})
-})
-
-// router.get('/search', function(req,res,next) {
-// 	res.json({"Error": true, "Message": "Seems like you forgot the offences parameter"});
-// });
-
-// router.get('./search?offence=:Offence', function(req,res,next) {
-// 	var query = "SELECT pretty FROM ?? "
-// 	var table = ["offences"];
-// 	query = mysql.format(query, table, req.params.Offence);
-// 	req.db.query(query, function(err, rows) {
-// 		if(err) {
-// 			res.json({"Error": true, "Message": "Error executing MySQL query"});
-// 		} else {
-// 			res.json({"Error": false, "Message" : "Success", "Offences" : rows});
-// 		}
-// 	})
-// });
-
-
+});
 
 module.exports = router;
