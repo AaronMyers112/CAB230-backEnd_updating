@@ -1,0 +1,157 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Crime Statistics Database",
+    "description": "This is a simple Express API that gathers data from a MySQL database and returns it in JSON format - used for CAB230 web computing backend",
+    "version": "1.0.0",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "aaronmyers112@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Search"
+    },
+    {
+      "name": "Helpers"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "registers user on the database",
+        "description": "use url encoded headers to send data to register users to access the database, NOT CURRENTLY IMPLEMENTED",
+        "operationId": "register",
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "allows the user access to the database",
+        "description": "returns an authentication token for the user to access the database",
+        "operationId": "login",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/offences": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "allows users to get a list of offences registered within the database",
+        "description": "returns a json file containing both the cammel case and the 'Pretty' version of the crimes",
+        "operationId": "offences",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/area": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Allows access to specific data within a table",
+        "description": "returns a json file containing only the areas contained within the database",
+        "operationId": "area",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/age": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Allows access to specific data within a table",
+        "description": "returns a json file containing only the ages contained within the database",
+        "operationId": "ages",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/genders": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Allows access to specific data within a table",
+        "description": "returns a json file containing only the agenders contained within the database",
+        "operationId": "genders",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/years": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Allows access to specific data within a table",
+        "description": "returns a json file containing only the years contained within the database",
+        "operationId": "years",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    },
+    "/months": {
+      "get": {
+        "tags": [
+          "Helpers"
+        ],
+        "summary": "Allows access to specific data within a table",
+        "description": "returns a json file containing only the months contained within the database",
+        "operationId": "months",
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        }
+      }
+    }
+  }
+}

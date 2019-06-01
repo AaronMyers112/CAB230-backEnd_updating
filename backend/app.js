@@ -3,10 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var db = require('./database/db');
+// var db = require('./database/db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocs = require('./docs/swagger.json');
 
 var app = express();
 
@@ -19,7 +22,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(db);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+// app.use(db);
+
+const option = require('./knexfile.js');
+const knex = require('knex')(option);
+
+app.use((req,res,next) => {
+	req.db = knex
+	next()
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
