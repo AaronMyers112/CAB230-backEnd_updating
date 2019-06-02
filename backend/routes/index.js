@@ -25,22 +25,22 @@ router.get('/offences', function(req,res,next) {
 router.get('/search?', function(req, res, next) {
 	let p = req.params.Param;
 	let query = req.db.select('area').sum({total: req.query.offence}).from('offences').groupBy('area')
-	if(req.query.area){
-		query.where('area', req.query.name);
+	if(req.query.area && req.query.area != ""){
+		query.where('area', req.query.area);
 	}
-	if(req.query.age)
+	if(req.query.age && req.query.age != "")
 	{
 		query.where('age', req.query.age);
 	}
-	if(req.query.gender)
+	if(req.query.gender && req.query.gender != "")
 	{
 		query.where('gender', req.query.gender);
 	}
-	if(req.query.year)
+	if(req.query.year && req.query.year != "")
 	{
 		query.where('year', req.query.year);
 	}
-	if(req.query.month){
+	if(req.query.month && req.query.month != ""){
 		query.where('month', req.query.month);
 	}
 	console.log(req.query);

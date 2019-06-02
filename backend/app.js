@@ -11,6 +11,8 @@ var usersRouter = require('./routes/users');
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocs = require('./docs/swagger.json');
 
+const helmet = require('helmet');
+
 var app = express();
 
 // view engine setup
@@ -18,6 +20,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
